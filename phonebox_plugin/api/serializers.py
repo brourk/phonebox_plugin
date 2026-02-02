@@ -17,6 +17,7 @@ class NumberSerializer(TagSerializer, serializers.ModelSerializer):
     label = serializers.CharField(source='number', read_only=True)
     tenant = TenantSerializer(required=True, allow_null=False, nested=True)
     region = RegionSerializer(required=False, allow_null=True, nested=True)
+    site = SiteSerializer(required=False, allow_null=True, nested=True)
     provider = ProviderSerializer(required=False, allow_null=True, nested=True)
     forward_to = serializers.PrimaryKeyRelatedField(queryset=Number.objects.all(), required=False, allow_null=True)
     tags = TagSerializer(many=True, required=False, nested=True)
@@ -24,7 +25,7 @@ class NumberSerializer(TagSerializer, serializers.ModelSerializer):
     class Meta:
         model = Number
         fields = [
-            "id", "label", "number", "tenant", "region", "forward_to", "description", "provider", "tags",
+            "id", "label", "number", "tenant", "region", "site", "forward_to", "description", "provider", "tags",
         ]
 
 

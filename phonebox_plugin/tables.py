@@ -1,15 +1,8 @@
 import django_tables2 as tables
+from netbox.tables import BaseTable, columns
 from .models import Number, VoiceCircuit
-from django.conf import settings
-from packaging import version
 
-NETBOX_CURRENT_VERSION = version.parse(settings.VERSION)
-
-if NETBOX_CURRENT_VERSION >= version.parse("3.2"):
-    from netbox.tables import BaseTable, columns
-    ToggleColumn = columns.ToggleColumn
-else:
-    from utilities.tables import BaseTable, ToggleColumn
+ToggleColumn = columns.ToggleColumn
 
 
 class NumberTable(BaseTable):
@@ -18,13 +11,14 @@ class NumberTable(BaseTable):
     number = tables.LinkColumn()
     tenant = tables.LinkColumn()
     region = tables.LinkColumn()
+    site = tables.LinkColumn()
     provider = tables.LinkColumn()
     forward_to = tables.LinkColumn()
     tags = columns.TagColumn()
 
     class Meta(BaseTable.Meta):
         model = Number
-        fields = ('pk', 'number', 'tenant', 'region', 'description', 'provider', 'forward_to', 'tags')
+        fields = ('pk', 'number', 'tenant', 'region', 'site', 'description', 'provider', 'forward_to', 'tags')
 
 
 class VoiceCircuitTable(BaseTable):

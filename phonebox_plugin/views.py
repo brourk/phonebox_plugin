@@ -1,16 +1,8 @@
-#!./venv/bin/python
-
 from netbox.views import generic
 from .models import Number, VoiceCircuit
 from . import filters
 from . import forms
 from . import tables
-
-from django.conf import settings
-from packaging import version
-
-
-NETBOX_CURRENT_VERSION = version.parse(settings.VERSION)
 
 
 class NumberListView(generic.ObjectListView):
@@ -18,36 +10,18 @@ class NumberListView(generic.ObjectListView):
     filterset = filters.NumberFilterSet
     filterset_form = forms.NumberFilterForm
     table = tables.NumberTable
-    if NETBOX_CURRENT_VERSION >= version.parse("4.0"):
-        template_name = "phonebox_plugin/number_list_view_4.x.html"
-    elif NETBOX_CURRENT_VERSION >= version.parse("3.0") and NETBOX_CURRENT_VERSION < version.parse("3.4"):
-        template_name = "phonebox_plugin/list_view_3.x.html"
-    elif NETBOX_CURRENT_VERSION >= version.parse("3.4"):
-        template_name = "phonebox_plugin/list_view_3.4.html"
-    else:
-        template_name = "phonebox_plugin/list_view.html"
+    template_name = "phonebox_plugin/number_list_view_4.x.html"
 
 
 class NumberView(generic.ObjectView):
     queryset = Number.objects.prefetch_related('tenant')
-    if NETBOX_CURRENT_VERSION >= version.parse("3.0"):
-        template_name = "phonebox_plugin/number_3.x.html"
-    else:
-        template_name = "phonebox_plugin/number.html"
+    template_name = "phonebox_plugin/number_3.x.html"
 
 
 class NumberEditView(generic.ObjectEditView):
     queryset = Number.objects.all()
-
-    if NETBOX_CURRENT_VERSION >= version.parse("3.2"):
-        form = forms.NumberEditForm
-    else:
-        model_form = forms.NumberEditForm
-
-    if NETBOX_CURRENT_VERSION >= version.parse("3.0"):
-        template_name = "phonebox_plugin/add_number_3.x.html"
-    else:
-        template_name = "phonebox_plugin/add_number.html"
+    form = forms.NumberEditForm
+    template_name = "phonebox_plugin/add_number_3.x.html"
 
 
 class NumberBulkEditView(generic.BulkEditView):
@@ -80,36 +54,18 @@ class VoiceCircuitListView(generic.ObjectListView):
     filterset = filters.VoiceCircuitFilterSet
     filterset_form = forms.VoiceCircuitFilterForm
     table = tables.VoiceCircuitTable
-    if NETBOX_CURRENT_VERSION >= version.parse("4.0"):
-        template_name = "phonebox_plugin/voice_circuit_list_view_4.x.html"
-    elif NETBOX_CURRENT_VERSION >= version.parse("3.0") and NETBOX_CURRENT_VERSION < version.parse("3.4"):
-        template_name = "phonebox_plugin/voice_circuit_list_view_3.x.html"
-    elif NETBOX_CURRENT_VERSION >= version.parse("3.4"):
-        template_name = "phonebox_plugin/voice_circuit_list_view_3.4.html"
-    else:
-        template_name = "phonebox_plugin/voice_circuit_list_view.html"
+    template_name = "phonebox_plugin/voice_circuit_list_view_4.x.html"
 
 
 class VoiceCircuitView(generic.ObjectView):
     queryset = VoiceCircuit.objects.prefetch_related('tenant')
-    if NETBOX_CURRENT_VERSION >= version.parse("3.0"):
-        template_name = "phonebox_plugin/voice_circuit_3.x.html"
-    else:
-        template_name = "phonebox_plugin/voice_circuit.html"
+    template_name = "phonebox_plugin/voice_circuit_3.x.html"
 
 
 class VoiceCircuitEditView(generic.ObjectEditView):
     queryset = VoiceCircuit.objects.all()
-    
-    if NETBOX_CURRENT_VERSION >= version.parse("3.2"):
-        form = forms.VoiceCircuitEditForm
-    else:
-        model_form = forms.VoiceCircuitEditForm
-
-    if NETBOX_CURRENT_VERSION >= version.parse("3.0"):
-        template_name = "phonebox_plugin/add_voice_circuit_3.x.html"
-    else:
-        template_name = "phonebox_plugin/add_voice_circuit.html"
+    form = forms.VoiceCircuitEditForm
+    template_name = "phonebox_plugin/add_voice_circuit_3.x.html"
 
 
 class VoiceCircuitBulkEditView(generic.BulkEditView):

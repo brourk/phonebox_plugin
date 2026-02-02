@@ -3,18 +3,9 @@ from django.db.models import Q
 from circuits.models import Provider
 from dcim.models import Region, Site
 from tenancy.models import Tenant
+from netbox.filtersets import BaseFilterSet
+from extras.filters import TagFilter
 from .models import Number, VoiceCircuit
-from packaging import version
-from django.conf import settings
-
-NETBOX_CURRENT_VERSION = version.parse(settings.VERSION)
-
-if NETBOX_CURRENT_VERSION < version.parse("2.11.3"):
-    from utilities.filters import BaseFilterSet
-    from utilities.filters import TagFilter
-else:
-    from netbox.filtersets import BaseFilterSet
-    from extras.filters import TagFilter
 
 
 class NumberFilterSet(BaseFilterSet):
@@ -41,11 +32,17 @@ class NumberFilterSet(BaseFilterSet):
         to_field_name='id',
         label='Region (id)',
     )
+    site = django_filters.ModelMultipleChoiceFilter(
+        queryset=Site.objects.all(),
+        field_name='site__id',
+        to_field_name='id',
+        label='Site (id)',
+    )
     provider = django_filters.ModelMultipleChoiceFilter(
         queryset=Provider.objects.all(),
         field_name='provider__id',
         to_field_name='id',
-        label='Region (id)',
+        label='Provider (id)',
     )
     forward_to = django_filters.ModelMultipleChoiceFilter(
         field_name='forward_to',

@@ -7,9 +7,9 @@ with open(path.join(top_level_directory, 'README.md'), encoding='utf-8') as file
 
 setup(
     name='phonebox_plugin',
-    version='v0.0.10',
-    url='https://github.com/iDebugAll/phonebox-plugin.git',
-    download_url='https://github.com/iDebugAll/phonebox-plugin/archive/v0.0.10.tar.gz',
+    version='v0.0.11',
+    url='https://github.com/brourk/phonebox_plugin.git',
+    download_url='https://github.com/brourk/phonebox_plugin/archive/v0.0.11.tar.gz',
     description='A phone numbers management plugin for NetBox.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -23,8 +23,8 @@ setup(
     classifiers=[
         'Development Status :: 4 - Beta',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
     ],
 )

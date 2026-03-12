@@ -1,0 +1,137 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 STIXTwoMath-Regular;\f1\fswiss\fcharset0 Helvetica;\f2\fnil\fcharset0 AppleColorEmoji;
+}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww17180\viewh13100\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \uc0\u9210 
+\f1  Perfect! I've committed all the changes. Now here are the instructions to switch from the upstream plugin to your version:\
+\
+  How to Switch to Your Fork of PhoneBox Plugin\
+\
+  Step 1: Uninstall the Old Plugin\
+\
+  # Activate NetBox virtual environment\
+  source /opt/netbox/venv/bin/activate\
+\
+  # Uninstall the old plugin from PyPI\
+  pip3 uninstall phonebox_plugin -y\
+\
+  Step 2: Install Your Version from GitHub\
+\
+  You have two options:\
+\
+  Option A: Install directly from GitHub (recommended for production)\
+  pip3 install git+https://github.com/brourk/phonebox_plugin.git@main\
+\
+  Option B: Install in editable mode (recommended for development)\
+  # Clone your repo if you haven't already\
+  cd /opt\
+  git clone https://github.com/brourk/phonebox_plugin.git\
+  cd phonebox_plugin\
+\
+  # Install in editable mode\
+  pip3 install -e .\
+\
+  Step 3: Update NetBox Configuration\
+\
+  Edit your NetBox configuration file (usually /opt/netbox/netbox/netbox/configuration.py):\
+\
+  PLUGINS = [\
+      'phonebox_plugin',\
+  ]\
+\
+  Step 4: Apply Database Migrations\
+\
+  cd /opt/netbox/netbox/\
+  python3 manage.py migrate phonebox_plugin\
+\
+  # You should see output like:\
+  # Running migrations:\
+  #   Applying phonebox_plugin.0005_add_site_to_number... OK\
+\
+  Step 5: Collect Static Files\
+\
+  python3 manage.py collectstatic --no-input\
+\
+  Step 6: Restart NetBox Services\
+\
+  # Exit the virtual environment\
+  deactivate\
+\
+  # Restart NetBox services\
+  sudo systemctl restart netbox netbox-rq\
+\
+  Step 7: Verify Installation\
+\
+  # Check the plugin version\
+  source /opt/netbox/venv/bin/activate\
+  cd /opt/netbox/netbox/\
+  python3 manage.py shell\
+\
+  # In the Python shell:\
+  >>> from phonebox_plugin import PhoneBoxConfig\
+  >>> print(PhoneBoxConfig.version)\
+  v0.0.11\
+  >>> exit()\
+\
+  Step 8: Test Export Functionality\
+\
+  1. CSV Export:\
+    - Navigate to /plugins/phonebox/ in NetBox\
+    - Click the "Export" button on the Number list view\
+    - Should download a CSV file with all numbers\
+  2. Export Templates:\
+    - Navigate to /extras/export-templates/\
+    - Click "Add Export Template"\
+    - Under "Object type", select "phonebox_plugin | number" or "phonebox_plugin | voice circuit"\
+    - Create a template (example below)\
+\
+  Example Export Template:\
+  \{% for number in queryset %\}\
+  \{\{ number.number \}\},\{\{ number.tenant \}\},\{\{ number.site|default:"" \}\},\{\{ number.description \}\}\
+  \{% endfor %\}\
+\
+  Step 9: Update local_requirements.txt (Optional)\
+\
+  To ensure the plugin is reinstalled during NetBox upgrades:\
+\
+  echo "git+https://github.com/brourk/phonebox_plugin.git@main" >> /opt/netbox/local_requirements.txt\
+\
+  Step 10: Push Your Commit to GitHub\
+\
+  cd /Users/brourk/Documents/GitHub/phonebox_plugin\
+  git push origin main\
+\
+  What Changed in v0.0.11\
+\
+  - 
+\f2 \uc0\u9989 
+\f1  Export Support: CSV export + Export Templates now work\
+  - 
+\f2 \uc0\u9989 
+\f1  Site Field: Numbers can now be associated with Sites\
+  - 
+\f2 \uc0\u9989 
+\f1  NetBox 4.5.1 Support: Tested with your version\
+  - 
+\f2 \uc0\u9989 
+\f1  Modern APIs: Using NetBoxModel for better integration\
+  - 
+\f2 \uc0\u9989 
+\f1  Cleaner Code: Removed 127 lines of legacy version checks\
+\
+
+\f0 \uc0\u9210 
+\f1  All done! 
+\f2 \uc0\u55356 \u57225 
+\f1 \
+\
+  Your changes have been committed to your local repository. When you're ready, push to GitHub with:\
+\
+  git push origin main\
+\
+  Then follow the installation instructions above to deploy the updated plugin to your NetBox 4.5.1 instance. The export functionality you requested is now\
+  fully implemented!}

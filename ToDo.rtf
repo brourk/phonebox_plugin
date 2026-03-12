@@ -134,4 +134,16 @@
   git push origin main\
 \
   Then follow the installation instructions above to deploy the updated plugin to your NetBox 4.5.1 instance. The export functionality you requested is now\
-  fully implemented!}
+  fully implemented!\
+\
+\
+  source /opt/netbox/venv/bin/activate\
+  pip3 install --upgrade .   # or pip3 install -e . if in editable mode\
+  python3 /opt/netbox/netbox/manage.py migrate phonebox_plugin\
+  sudo systemctl restart netbox\
+\
+\
+\
+\
+\
+}

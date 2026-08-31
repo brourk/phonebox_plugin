@@ -21,6 +21,7 @@ class NumberEditView(generic.ObjectEditView):
     queryset = Number.objects.all()
     form = forms.NumberEditForm
     template_name = "phonebox_plugin/add_number_3.x.html"
+    default_return_url = "plugins:phonebox_plugin:list_view"
 
 
 class NumberBulkEditView(generic.BulkEditView):
@@ -64,6 +65,7 @@ class VoiceCircuitEditView(generic.ObjectEditView):
     queryset = VoiceCircuit.objects.all()
     form = forms.VoiceCircuitEditForm
     template_name = "phonebox_plugin/add_voice_circuit_3.x.html"
+    default_return_url = "plugins:phonebox_plugin:voice_circuit_list_view"
 
 
 class VoiceCircuitBulkEditView(generic.BulkEditView):
